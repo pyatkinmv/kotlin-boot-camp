@@ -20,6 +20,6 @@ fun max(values: List<Int>): Int {
  */
 fun sum(values: List<Int>): Long {
     var sum: Long = 0
-    values.forEach {sum += it}
+    values.forEach { sum += it }
     return sum
 }
