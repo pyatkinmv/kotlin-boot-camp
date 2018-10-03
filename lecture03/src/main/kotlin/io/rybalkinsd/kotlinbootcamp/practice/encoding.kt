@@ -9,8 +9,6 @@ val alphabet = setOf("Alfa", "Bravo", "Charlie", "Delta", "Echo", "Foxtrot", "Go
  * A mapping for english characters to phonetic alphabet.
  * [ a -> Alfa, b -> Bravo, ...]
  */
-//val association: Map<Char, String> = alphabet.associateBy { it[0].toLowerCase() }
-
 val association: Map<Char, String> = alphabet.associateBy { x -> x[0].toLowerCase() }
 
 /**
@@ -22,9 +20,7 @@ val association: Map<Char, String> = alphabet.associateBy { x -> x[0].toLowerCas
  * "abc".encode() == "AlfaBravoCharlie"
  *
  */
-
-fun String.encode(): String = 
-        map {it.toLowerCase()}
+fun String.encode(): String = map { it.toLowerCase() }
                 .map { association[it] ?: it }
                 .joinToString("")
 
@@ -33,8 +29,6 @@ fun String.encode(): String =
  * [ alpha -> a, bravo -> b, ...]
  */
 val reversedAssociation: Map<String, Char> = association.keys.associateBy { x -> association[x]!! }
-
-
 
 /**
  * Extension function for String which decode it according to `reversedAssociation` mapping
@@ -58,6 +52,6 @@ fun String.decode(): String? {
             index = res.lastIndexOf(it)
         }
     }
-    if(!isThereWord) return null
+    if (!isThereWord) return null
     return res.toString().toLowerCase()
 }
