@@ -1,6 +1,5 @@
 package io.rybalkinsd.kotlinbootcamp.practice
 
-
 /**
  * NATO phonetic alphabet
  */
@@ -24,7 +23,7 @@ val association: Map<Char, String> = alphabet.associateBy { x -> x[0].toLowerCas
  *
  */
 
-fun String.encode(): String =
+fun String.encode(): String = 
         map {it.toLowerCase()}
                 .map { association[it] ?: it }
                 .joinToString("")
@@ -34,7 +33,6 @@ fun String.encode(): String =
  * [ alpha -> a, bravo -> b, ...]
  */
 val reversedAssociation: Map<String, Char> = association.keys.associateBy { x -> association[x]!! }
-
 
 
 
@@ -58,7 +56,6 @@ fun String.decode(): String? {
             if (index + it.length < res.length && res[index + it.length].isLowerCase()) return@decode null
             res.replace(index, index + it.length, it[0].toString())
             index = res.lastIndexOf(it)
-            println(res)
         }
     }
     if(!isThereWord) return null
