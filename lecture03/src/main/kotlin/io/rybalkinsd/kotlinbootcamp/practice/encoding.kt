@@ -10,7 +10,9 @@ val alphabet = setOf("Alfa", "Bravo", "Charlie", "Delta", "Echo", "Foxtrot", "Go
  * A mapping for english characters to phonetic alphabet.
  * [ a -> Alfa, b -> Bravo, ...]
  */
-val association: Map<Char, String> = TODO()
+//val association: Map<Char, String> = alphabet.associateBy { it[0].toLowerCase() }
+
+val association: Map<Char, String> = alphabet.associateBy { x -> x[0].toLowerCase() }
 
 /**
  * Extension function for String which encode it according to `association` mapping
@@ -21,13 +23,19 @@ val association: Map<Char, String> = TODO()
  * "abc".encode() == "AlfaBravoCharlie"
  *
  */
-fun String.encode(): String = TODO()
+
+fun String.encode(): String =
+        map {it.toLowerCase()}
+                .map { association[it] ?: it }
+                .joinToString("")
 
 /**
  * A reversed mapping for association
  * [ alpha -> a, bravo -> b, ...]
  */
-val reversedAssociation: Map<String, Char> = TODO()
+val reversedAssociation: Map<String, Char> = association.keys.associateBy { x -> association[x]!! }
+
+
 
 
 /**
@@ -36,12 +44,23 @@ val reversedAssociation: Map<String, Char> = TODO()
  * @return encoded string or null if it is impossible to decode
  *
  * Example:
- * "alphabravocharlie".encode() == "abc"
+ * "alphabravocharlie".decode() == "abc"
  * "charliee".decode() == null
  *
  */
-fun String.decode(): String? = TODO()
-
-
-
-
+fun String.decode(): String? {
+    var res = StringBuilder(this)
+    var isThereWord = false
+    alphabet.forEach {
+        var index = res.lastIndexOf(it)
+        while (index != -1) {
+            isThereWord = true
+            if (index + it.length < res.length && res[index + it.length].isLowerCase()) return@decode null
+            res.replace(index, index + it.length, it[0].toString())
+            index = res.lastIndexOf(it)
+            println(res)
+        }
+    }
+    if(!isThereWord) return null
+    return res.toString().toLowerCase()
+}

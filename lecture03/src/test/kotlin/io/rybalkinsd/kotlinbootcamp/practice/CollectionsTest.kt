@@ -7,7 +7,7 @@ class CollectionsTest {
     fun `how to create collections`() {
         println(ArrayList<Int>()) // Java way
         println(listOf(1, 2)) // immutable list
-        println(mutableListOf(5, 6)) // mutable list
+        println(mutableListOf(5, "s")) // mutable list
         println(arrayListOf(3, 4))
         println(mapOf("one" to 1, "two" to "two"))
     }
@@ -47,12 +47,12 @@ class CollectionsTest {
     @Test
     fun sequences() {
         // 5 map() and filter() operations will be done
-        println(listOf(1, 2, 3, 4, 5)
+        println(listOf(1, 2, 3, 4, 5) // после каждого из шагов будет образована новая коллекция, т.е каждый раз будет производиться аллокация.
                 .map { n -> n * n }
                 .filter { n -> n < 10 }
                 .first())
         // only one map() and filter() will be done
-        println(listOf(1, 2, 3, 4, 5)
+        println(listOf(1, 2, 3, 4, 5) // так оптимальнее
                 .asSequence()
                 .map { n -> n * n }
                 .filter { n -> n < 10 }
