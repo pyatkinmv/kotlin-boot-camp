@@ -15,12 +15,12 @@ interface Collider {
  */
 data class Point(val x: Int, val y: Int) : Collider {
     override fun isColliding(other: Collider): Boolean =
-         when (other) {
-            is Point -> other == this
-            is Bar -> other.isColliding(this)
-            else -> false
-        }
-    }
+            when (other) {
+                is Point -> other == this
+                is Bar -> other.isColliding(this)
+                else -> false
+            }
+}
 /**
  * Bar is a rectangle, which borders are parallel to coordinate axis
  * Like selection bar in desktop, this bar is defined by two opposite corners
