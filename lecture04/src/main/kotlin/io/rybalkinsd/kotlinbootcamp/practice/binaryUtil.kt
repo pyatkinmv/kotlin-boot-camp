@@ -6,4 +6,9 @@ package io.rybalkinsd.kotlinbootcamp.practice
  * @throws NumberFormatException if could not be parsed as Number
  * @throws IllegalArgumentException if target string is null
  */
-fun String?.toBinary(): String = TODO()
+fun String?.toBinary(): String = when(this) {
+    null -> throw IllegalArgumentException()
+    else -> toBigInteger().toString(2)
+}
+
+

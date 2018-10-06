@@ -9,7 +9,7 @@ class ExceptionHandlingTest {
     @Test
     fun `try with number format exception`() {
         try {
-            val number = "404e1".toInt().also {
+            val number = "404e1".toDouble().also {
                 println(it)
             }
 
