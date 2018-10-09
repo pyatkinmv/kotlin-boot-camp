@@ -8,6 +8,9 @@ class ApplyTest {
     fun `using apply to construct our object`() {
         User(24601).apply {
             lastName = "J"
+            a1 = "42"}.also{
+            it.lastName = "    "
+            println(it)
         }
     }
 }

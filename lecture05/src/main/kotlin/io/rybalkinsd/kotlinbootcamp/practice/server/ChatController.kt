@@ -1,6 +1,7 @@
 package io.rybalkinsd.kotlinbootcamp.practice.server
 
 import io.rybalkinsd.kotlinbootcamp.util.logger
+import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
@@ -45,20 +46,52 @@ class ChatController {
         method = [RequestMethod.GET],
         produces = [MediaType.TEXT_PLAIN_VALUE]
     )
-    fun online(): ResponseEntity<String> = TODO()
-
+    fun online(): ResponseEntity<String> =
+            ResponseEntity(usersOnline.values.toString(), HttpStatus.OK)
+    
     /**
      * curl -X POST -i localhost:8080/chat/logout -d "name=I_AM_STUPID"
      */
-    // TODO
+    @RequestMapping(
+            path = ["logout"],
+            method = [RequestMethod.DELETE],
+            produces = [MediaType.TEXT_PLAIN_VALUE]
+    )
+    fun logout(@RequestParam("name") name: String): ResponseEntity<String> = when {
+        name.isEmpty() -> ResponseEntity.badRequest().body("Name is too short")
+        name.length > 20 -> ResponseEntity.badRequest().body("Name is too long")
+        !usersOnline.contains(name) -> ResponseEntity.badRequest().body("No such user")
+        else -> {
+            usersOnline.remove(name)
+            messages += "[$name] logged out".also { log.info(it) }
+            ResponseEntity.ok().build()
+        }
+    }
 
     /**
      * curl -X POST -i localhost:8080/chat/say -d "name=I_AM_STUPID&msg=Hello everyone in this chat"
      */
-    // TODO
+    @RequestMapping(
+            path = ["/say"],
+            method = [RequestMethod.POST],
+            consumes = [MediaType.APPLICATION_FORM_URLENCODED_VALUE]
+    )
+    fun say(@RequestParam("name") name: String, @RequestParam("msg") msg: String): ResponseEntity<String> = when {
+        !usersOnline.contains(name) -> ResponseEntity.badRequest().body("User is not logged in")
+        else -> {
+            messages += "[$name] $msg".also { log.info(it) }
+            ResponseEntity.ok().build()
+        }
+    }
 
     /**
-     * curl -i localhost:8080/chat/chat
+     * curl -i localhost:8080/chat/history
      */
-    // TODO
+    @RequestMapping(
+            path = ["history"],
+            method = [RequestMethod.GET],
+            produces = [MediaType.TEXT_PLAIN_VALUE]
+    )
+    fun history(): ResponseEntity<String> =
+            ResponseEntity(messages.toString(), HttpStatus.OK)
 }
