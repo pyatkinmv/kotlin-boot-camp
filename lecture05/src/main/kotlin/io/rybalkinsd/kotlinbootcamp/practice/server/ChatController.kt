@@ -48,7 +48,7 @@ class ChatController {
     )
     fun online(): ResponseEntity<String> =
             ResponseEntity(usersOnline.values.toString(), HttpStatus.OK)
-    
+
     /**
      * curl -X POST -i localhost:8080/chat/logout -d "name=I_AM_STUPID"
      */
